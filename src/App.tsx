@@ -1,22 +1,22 @@
 import React from 'react';
 
-interface IAppProps {
+interface AppProps {
   name: string;
 }
 
-interface IAppState {
+interface AppState {
   age?: number;
   cities: string[];
 }
 
-class App extends React.Component<IAppProps, IAppState> {
+class App extends React.Component<AppProps, AppState> {
   state = {
     age: 111,
     cities: [] as string[],
   };
 
-  render(){
-    return <h1>Hello, {this.props.name}!</h1>
+  render(): JSX.Element {
+    return <h1>Hello, {this.props.name}!</h1>;
   }
 }
 

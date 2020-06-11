@@ -3,7 +3,11 @@ env:
   browser: true
   commonjs: true
 
-extends: ['htmlacademy/es6', 'plugin:react/recommended']
+extends: [
+  'htmlacademy/es6',
+  'plugin:react/recommended',
+  'plugin:@typescript-eslint/recommended',
+  ]
 
 parserOptions:
   ecmaFeatures:
@@ -11,8 +15,10 @@ parserOptions:
   ecmaVersion: 6
   sourceType: module
 
-plugins: ['react']
+plugins: ['react', '@typescript-eslint']
 
 settings:
   react:
     version: '16'
+
+parser: '@typescript-eslint/parser'
