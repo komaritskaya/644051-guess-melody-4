@@ -2,6 +2,7 @@ import React from 'react';
 
 interface WelcomeScreenProps {
   errorsCount: number;
+  onWelcomeButtonClick: () => void;
 }
 
 const getErrorsText = (count: number): string => {
@@ -15,13 +16,18 @@ const getErrorsText = (count: number): string => {
   }
 };
 
-const WelcomeScreen: React.FunctionComponent<WelcomeScreenProps> = ({errorsCount}: WelcomeScreenProps) => {
+const WelcomeScreen: React.FunctionComponent<WelcomeScreenProps> = ({
+  errorsCount,
+  onWelcomeButtonClick,
+}: WelcomeScreenProps) => {
   const errorsText = getErrorsText(errorsCount);
 
   return (
     <section className="welcome">
       <div className="welcome__logo"><img src="img/melody-logo.png" alt="Угадай мелодию" width="186" height="83" /></div>
-      <button className="welcome__button"><span className="visually-hidden">Начать игру</span></button>
+      <button className="welcome__button" onClick={onWelcomeButtonClick}>
+        <span className="visually-hidden">Начать игру</span>
+      </button>
       <h2 className="welcome__rules-title">Правила игры</h2>
       <p className="welcome__text">Правила просты:</p>
       <ul className="welcome__rules-list">
