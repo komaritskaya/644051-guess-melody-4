@@ -47,7 +47,11 @@
     "node": "10"
   },
   "dependencies": {
+    "@types/nanoid": "2.1.0",
+    "@types/react-router-dom": "5.1.5",
+    "nanoid": "2.1.11",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-router-dom": "5.2.0"
   }
 }
