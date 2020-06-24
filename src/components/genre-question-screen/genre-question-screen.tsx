@@ -12,7 +12,7 @@ const GenreQuestionScreen: React.FC<GenreQuestionScreenProps> = ({question, onAn
     answers,
     genre,
   } = question;
-  const [userAnswers, setUserAnswers] = useState([false, false, false, false]);
+  const [userAnswers, setUserAnswers] = useState(new Array(question.answers.length).fill(false));
 
   return (
     <section className="game game--genre">
@@ -58,7 +58,6 @@ const GenreQuestionScreen: React.FC<GenreQuestionScreenProps> = ({question, onAn
                     className="game__input visually-hidden"
                     type="checkbox"
                     name="answer"
-                    value={`answer-${i}`}
                     id={`answer-${i}`}
                     checked={userAnswers[i]}
                     onChange={(evt): void => {

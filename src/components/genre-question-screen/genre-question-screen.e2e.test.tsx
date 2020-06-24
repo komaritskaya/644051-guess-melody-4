@@ -1,5 +1,5 @@
 import React from 'react';
-import {configure, shallow} from 'enzyme';
+import {configure, shallow, mount} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import GenreQuestionScreen from './genre-question-screen';
 import {GameType, GenreQuestion} from '../../types';
@@ -50,7 +50,7 @@ it(`User answer passed to callback is consistent with "userAnswer" prop`, () => 
   const onAnswer = jest.fn((...args) => [...args]);
   const userAnswer = [false, true, false, false];
 
-  const genreQuestion = shallow(<GenreQuestionScreen
+  const genreQuestion = mount(<GenreQuestionScreen
     onAnswer={onAnswer}
     question={question}
   />);
@@ -59,7 +59,6 @@ it(`User answer passed to callback is consistent with "userAnswer" prop`, () => 
   const inputTwo = genreQuestion.find(`input`).at(1);
 
   inputTwo.simulate(`change`, {target: {checked: true}});
-  genreQuestion.update();
   form.simulate(`submit`, {preventDefault() {}});
 
   expect(onAnswer).toHaveBeenCalledTimes(1);
