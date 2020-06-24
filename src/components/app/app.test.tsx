@@ -1,10 +1,11 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import App from './app';
+import {GameType, GenreQuestion, ArtistQuestion} from '../../types';
 
-const questions = [
+const questions: (GenreQuestion | ArtistQuestion)[] = [
   {
-    type: `genre`,
+    type: GameType.GENRE,
     genre: `rock`,
     answers: [{
       src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
@@ -20,7 +21,7 @@ const questions = [
       genre: `rock`,
     }],
   }, {
-    type: `artist`,
+    type: GameType.ARTIST,
     song: {
       artist: `Jim Beam`,
       src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,

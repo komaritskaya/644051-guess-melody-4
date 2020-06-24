@@ -1,9 +1,10 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import ArtistQuestionScreen from './artist-question-screen';
+import {GameType, ArtistQuestion} from '../../types';
 
-const question = {
-  type: `artist`,
+const question: ArtistQuestion = {
+  type: GameType.ARTIST,
   song: {
     artist: `Jim Beam`,
     src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
@@ -24,7 +25,6 @@ it(`ArtistQuestionScreen is rendered correctly`, () => {
   const tree = renderer.create(
       <ArtistQuestionScreen
         question={question}
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
         onAnswer={(): void => {}}
       />
   ).toJSON();

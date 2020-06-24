@@ -23,3 +23,9 @@ settings:
     version: '16'
 
 parser: '@typescript-eslint/parser'
+
+rules: {
+  '@typescript-eslint/no-empty-function': 'off',
+  '@typescript-eslint/explicit-function-return-type': 'off',
+  'react/prop-types': 'off'
+ }

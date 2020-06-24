@@ -3,23 +3,20 @@ import {Switch, Route, BrowserRouter} from 'react-router-dom';
 import WelcomeScreen from '../welcome-screen/welcome-screen';
 import ArtistQuestionScreen from '../artist-question-screen/artist-question-screen';
 import GenreQuestionScreen from '../genre-question-screen/genre-question-screen';
-import {GameType} from '../../const';
 
-import {GenreQuestion, ArtistQuestion} from '../../types';
+import {GameType, GenreQuestion, ArtistQuestion} from '../../types';
 
 interface AppProps {
   errorsCount: number;
-  questions: [GenreQuestion, ArtistQuestion];
+  questions: (GenreQuestion | ArtistQuestion)[];
 }
 
 const App: React.FunctionComponent<AppProps> = ({errorsCount, questions}: AppProps) => {
   const [step, setStep] = useState(-1);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const _renderGameScreen = (): (React.ComponentElement<{}, any> | null) => {
+  const _renderGameScreen = () => {
     const question = questions[step];
 
-    // eslint-disable-next-line react/prop-types
     if (step === -1 || step >= questions.length) {
       return (
         <WelcomeScreen
@@ -30,7 +27,6 @@ const App: React.FunctionComponent<AppProps> = ({errorsCount, questions}: AppPro
     }
 
     if (question) {
-      // eslint-disable-next-line react/prop-types
       switch (question.type) {
         case GameType.GENRE:
           return (
@@ -60,17 +56,15 @@ const App: React.FunctionComponent<AppProps> = ({errorsCount, questions}: AppPro
         </Route>
         <Route exact path="/genre">
           <GenreQuestionScreen
-            question={questions[0]}
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            onAnswer={(): void => {}}
+            question={questions.find((question) => question.type === GameType.GENRE) as GenreQuestion}
+            onAnswer={() => {}}
           />
         </Route>
 
         <Route exact path="/artist">
           <ArtistQuestionScreen
-            question={questions[1]}
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            onAnswer={(): void => {}}
+            question={questions.find((question) => question.type === GameType.ARTIST) as ArtistQuestion}
+            onAnswer={() => {}}
           />
         </Route>
       </Switch>

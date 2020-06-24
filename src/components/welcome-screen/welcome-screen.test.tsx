@@ -6,7 +6,6 @@ it(`Should WelcomeScreen render correctly`, () => {
   const tree = renderer
     .create(<WelcomeScreen
       errorsCount={3}
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
       onWelcomeButtonClick={(): void => {}}
     />)
     .toJSON();

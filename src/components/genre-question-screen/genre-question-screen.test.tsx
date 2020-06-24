@@ -1,9 +1,10 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import GenreQuestionScreen from './genre-question-screen';
+import {GameType, GenreQuestion} from '../../types';
 
-const question = {
-  type: `genre`,
+const question: GenreQuestion = {
+  type: GameType.GENRE,
   genre: `rock`,
   answers: [{
     src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
@@ -24,7 +25,6 @@ it(`GenreQuestionScreen is rendered correctly`, () => {
   const tree = renderer.create((
     <GenreQuestionScreen
       question={question}
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
       onAnswer={(): void => {}}
     />
   ), {
