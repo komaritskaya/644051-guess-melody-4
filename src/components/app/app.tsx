@@ -1,19 +1,16 @@
 import React, {useState} from 'react';
 import {Switch, Route, BrowserRouter} from 'react-router-dom';
 import WelcomeScreen from '../welcome-screen/welcome-screen';
-// import ArtistQuestionScreen from '../artist-question-screen/artist-question-screen';
+import ArtistQuestionScreen from '../artist-question-screen/artist-question-screen';
 import GenreQuestionScreen from '../genre-question-screen/genre-question-screen';
 import {GameType} from '../../const';
 
-import {Question} from '../../types';
+import {Question, ArtistQuestion} from '../../types';
 
 interface AppProps {
   errorsCount: number;
-  questions: Question[];
+  questions: [Question, ArtistQuestion];
 }
-
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-// const welcomeButtonHandler = (): void => {};
 
 const App: React.FunctionComponent<AppProps> = ({errorsCount, questions}: AppProps) => {
   const [step, setStep] = useState(-1);
@@ -22,6 +19,7 @@ const App: React.FunctionComponent<AppProps> = ({errorsCount, questions}: AppPro
   const _renderGameScreen = (): (React.ComponentElement<{}, any> | null) => {
     const question = questions[step];
 
+    // eslint-disable-next-line react/prop-types
     if (step === -1 || step >= questions.length) {
       return (
         <WelcomeScreen
@@ -32,10 +30,18 @@ const App: React.FunctionComponent<AppProps> = ({errorsCount, questions}: AppPro
     }
 
     if (question) {
+      // eslint-disable-next-line react/prop-types
       switch (question.type) {
         case GameType.GENRE:
           return (
             <GenreQuestionScreen
+              question={question}
+              onAnswer={(): void => setStep((prevStep) => prevStep + 1)}
+            />
+          );
+        case GameType.ARTIST:
+          return (
+            <ArtistQuestionScreen
               question={question}
               onAnswer={(): void => setStep((prevStep) => prevStep + 1)}
             />
@@ -55,6 +61,14 @@ const App: React.FunctionComponent<AppProps> = ({errorsCount, questions}: AppPro
         <Route exact path="/genre">
           <GenreQuestionScreen
             question={questions[0]}
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            onAnswer={(): void => {}}
+          />
+        </Route>
+
+        <Route exact path="/artist">
+          <ArtistQuestionScreen
+            question={questions[1]}
             // eslint-disable-next-line @typescript-eslint/no-empty-function
             onAnswer={(): void => {}}
           />
