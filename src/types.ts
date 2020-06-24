@@ -1,4 +1,4 @@
-export interface Answer {
+export interface GenreAnswer {
   src: string;
   genre: string;
 }
@@ -13,10 +13,10 @@ export interface Song {
   src: string;
 }
 
-export interface Question {
+export interface GenreQuestion {
   type: string;
   genre: string;
-  answers: Answer[];
+  answers: GenreAnswer[];
 }
 
 export interface ArtistQuestion {

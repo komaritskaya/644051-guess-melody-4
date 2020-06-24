@@ -5,11 +5,11 @@ import ArtistQuestionScreen from '../artist-question-screen/artist-question-scre
 import GenreQuestionScreen from '../genre-question-screen/genre-question-screen';
 import {GameType} from '../../const';
 
-import {Question, ArtistQuestion} from '../../types';
+import {GenreQuestion, ArtistQuestion} from '../../types';
 
 interface AppProps {
   errorsCount: number;
-  questions: [Question, ArtistQuestion];
+  questions: [GenreQuestion, ArtistQuestion];
 }
 
 const App: React.FunctionComponent<AppProps> = ({errorsCount, questions}: AppProps) => {

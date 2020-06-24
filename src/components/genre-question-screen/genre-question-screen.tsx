@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import nanoid from 'nanoid';
-import {Question} from '../../types';
+import {GenreQuestion} from '../../types';
 
 interface GenreQuestionScreenProps {
-  question: Question;
-  onAnswer: (question: Question, userAnswers: boolean[]) => void;
+  question: GenreQuestion;
+  onAnswer: (question: GenreQuestion, userAnswers: boolean[]) => void;
 }
 
 const GenreQuestionScreen: React.FC<GenreQuestionScreenProps> = ({question, onAnswer}: GenreQuestionScreenProps) => {
