@@ -12,7 +12,7 @@ const GenreQuestionScreen: React.FC<GenreQuestionScreenProps> = ({question, onAn
     answers,
     genre,
   } = question;
-  const [form, setForm] = useState({userAnswers: [false, false, false, false]});
+  const [userAnswers, setUserAnswers] = useState(new Array(question.answers.length).fill(false));
 
   return (
     <section className="game game--genre">
@@ -40,7 +40,7 @@ const GenreQuestionScreen: React.FC<GenreQuestionScreenProps> = ({question, onAn
           className="game__tracks"
           onSubmit={(evt): void => {
             evt.preventDefault();
-            onAnswer(question, form.userAnswers);
+            onAnswer(question, userAnswers);
           }}
         >
           {answers.map((answer, i) => {
@@ -58,12 +58,11 @@ const GenreQuestionScreen: React.FC<GenreQuestionScreenProps> = ({question, onAn
                     className="game__input visually-hidden"
                     type="checkbox"
                     name="answer"
-                    value={`answer-${i}`}
                     id={`answer-${i}`}
-                    checked={form.userAnswers[i]}
+                    checked={userAnswers[i]}
                     onChange={(evt): void => {
                       const value = evt.target.checked;
-                      setForm((prevForm) => ({...prevForm, userAnswers: [...prevForm.userAnswers.slice(0, i), value, ...prevForm.userAnswers.slice(i + 1)]}));
+                      setUserAnswers((prevUserAnswers) => ([...prevUserAnswers.slice(0, i), value, ...prevUserAnswers.slice(i + 1)]));
                     }}
                   />
                   <label className="game__check" htmlFor={`answer-${i}`}>Отметить</label>

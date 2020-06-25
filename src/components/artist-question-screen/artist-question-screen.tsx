@@ -4,7 +4,7 @@ import {ArtistQuestion, ArtistAnswer} from '../../types';
 
 interface ArtistQuestionScreenProps {
   question: ArtistQuestion;
-  onAnswer: (question: ArtistQuestion, userAnswers: ArtistAnswer[]) => void;
+  onAnswer: (question: ArtistQuestion, userAnswer: ArtistAnswer) => void;
 }
 
 const ArtistQuestionScreen: React.FC<ArtistQuestionScreenProps> = ({question, onAnswer}: ArtistQuestionScreenProps) => {
