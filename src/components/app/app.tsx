@@ -3,8 +3,12 @@ import {Switch, Route, BrowserRouter} from 'react-router-dom';
 import WelcomeScreen from '../welcome-screen/welcome-screen';
 import ArtistQuestionScreen from '../artist-question-screen/artist-question-screen';
 import GenreQuestionScreen from '../genre-question-screen/genre-question-screen';
-
+import GameScreen from '../game-screen/game-screen';
 import {GameType, GenreQuestion, ArtistQuestion} from '../../types';
+import withAudioPlayer from '../../hocs/with-audio-player/with-audio-player';
+
+const GenreQuestionScreenWrapped = withAudioPlayer(GenreQuestionScreen);
+const ArtistQuestionScreenWrapped = withAudioPlayer(ArtistQuestionScreen);
 
 interface AppProps {
   errorsCount: number;
@@ -30,17 +34,21 @@ const App: React.FunctionComponent<AppProps> = ({errorsCount, questions}: AppPro
       switch (question.type) {
         case GameType.GENRE:
           return (
-            <GenreQuestionScreen
-              question={question}
-              onAnswer={(): void => setStep((prevStep) => prevStep + 1)}
-            />
+            <GameScreen type={question.type}>
+              <GenreQuestionScreenWrapped
+                question={question}
+                onAnswer={(): void => setStep((prevStep) => prevStep + 1)}
+              />
+            </GameScreen>
           );
         case GameType.ARTIST:
           return (
-            <ArtistQuestionScreen
-              question={question}
-              onAnswer={(): void => setStep((prevStep) => prevStep + 1)}
-            />
+            <GameScreen type={question.type}>
+              <ArtistQuestionScreenWrapped
+                question={question}
+                onAnswer={(): void => setStep((prevStep) => prevStep + 1)}
+              />
+            </GameScreen>
           );
       }
     }
@@ -55,14 +63,14 @@ const App: React.FunctionComponent<AppProps> = ({errorsCount, questions}: AppPro
           {_renderGameScreen()}
         </Route>
         <Route exact path="/genre">
-          <GenreQuestionScreen
+          <GenreQuestionScreenWrapped
             question={questions.find((question) => question.type === GameType.GENRE) as GenreQuestion}
             onAnswer={() => {}}
           />
         </Route>
 
         <Route exact path="/artist">
-          <ArtistQuestionScreen
+          <ArtistQuestionScreenWrapped
             question={questions.find((question) => question.type === GameType.ARTIST) as ArtistQuestion}
             onAnswer={() => {}}
           />
