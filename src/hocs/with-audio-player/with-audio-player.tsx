@@ -6,7 +6,8 @@ interface WithActivePlayerState {
 }
 
 const withActivePlayer = (Component) => {
-  class WithActivePlayer extends PureComponent<unknown, WithActivePlayerState> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  class WithActivePlayer extends PureComponent<any, WithActivePlayerState> {
     constructor(props) {
       super(props);
 
