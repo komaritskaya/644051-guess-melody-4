@@ -1,5 +1,7 @@
 import React from 'react';
-import {GameType} from '../../types';
+import {useSelector} from 'react-redux';
+import {GameType, RootState} from '../../types';
+import Mistakes from '../mistakes/mistakes';
 
 interface GameScreenProps {
   type: GameType.ARTIST | GameType.GENRE;
@@ -7,6 +9,7 @@ interface GameScreenProps {
 }
 
 const GameScreen = ({type, children}: GameScreenProps) => {
+  const mistakes = useSelector((state: RootState) => state.mistakes);
   return (
     <section className={`game game--${type}`}>
       <header className="game__header">
@@ -19,11 +22,9 @@ const GameScreen = ({type, children}: GameScreenProps) => {
           <circle className="timer__line" cx="390" cy="390" r="370" style={{filter: `url(#blur)`, transform: `rotate(-90deg) scaleY(-1)`, transformOrigin: `center`}} />
         </svg>
 
-        <div className="game__mistakes">
-          <div className="wrong"></div>
-          <div className="wrong"></div>
-          <div className="wrong"></div>
-        </div>
+        <Mistakes
+          count={mistakes}
+        />
       </header>
 
       {children}

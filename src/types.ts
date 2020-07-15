@@ -28,3 +28,10 @@ export interface ArtistQuestion {
   song: Song;
   answers: ArtistAnswer[];
 }
+
+export interface RootState {
+  mistakes: number;
+  maxMistakes: number;
+  step: number;
+  questions: (GenreQuestion | ArtistQuestion)[];
+}

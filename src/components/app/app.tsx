@@ -1,22 +1,31 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Switch, Route, BrowserRouter} from 'react-router-dom';
+import {useSelector, useDispatch} from 'react-redux';
+import {ActionCreator} from '../../reducer/reducer';
 import WelcomeScreen from '../welcome-screen/welcome-screen';
 import ArtistQuestionScreen from '../artist-question-screen/artist-question-screen';
 import GenreQuestionScreen from '../genre-question-screen/genre-question-screen';
 import GameScreen from '../game-screen/game-screen';
-import {GameType, GenreQuestion, ArtistQuestion} from '../../types';
+import {GameType, GenreQuestion, ArtistQuestion, RootState} from '../../types';
 import withAudioPlayer from '../../hocs/with-audio-player/with-audio-player';
 
 const GenreQuestionScreenWrapped = withAudioPlayer(GenreQuestionScreen);
 const ArtistQuestionScreenWrapped = withAudioPlayer(ArtistQuestionScreen);
 
-interface AppProps {
-  errorsCount: number;
-  questions: (GenreQuestion | ArtistQuestion)[];
-}
+const App: React.FunctionComponent = () => {
+  const step = useSelector((state: RootState) => state.step);
+  const maxMistakes = useSelector((state: RootState) => state.maxMistakes);
+  const questions = useSelector((state: RootState) => state.questions);
+  const dispatch = useDispatch();
 
-const App: React.FunctionComponent<AppProps> = ({errorsCount, questions}: AppProps) => {
-  const [step, setStep] = useState(-1);
+  const onWelcomeButtonClick = () => {
+    dispatch(ActionCreator.incrementStep());
+  };
+
+  const onUserAnswer = (question, answer) => {
+    dispatch(ActionCreator.incrementMistake(question, answer));
+    dispatch(ActionCreator.incrementStep());
+  };
 
   const _renderGameScreen = () => {
     const question = questions[step];
@@ -24,8 +33,8 @@ const App: React.FunctionComponent<AppProps> = ({errorsCount, questions}: AppPro
     if (step === -1 || step >= questions.length) {
       return (
         <WelcomeScreen
-          errorsCount={errorsCount}
-          onWelcomeButtonClick={(): void => setStep(0)}
+          errorsCount={maxMistakes}
+          onWelcomeButtonClick={onWelcomeButtonClick}
         />
       );
     }
@@ -37,7 +46,7 @@ const App: React.FunctionComponent<AppProps> = ({errorsCount, questions}: AppPro
             <GameScreen type={question.type}>
               <GenreQuestionScreenWrapped
                 question={question}
-                onAnswer={(): void => setStep((prevStep) => prevStep + 1)}
+                onAnswer={onUserAnswer}
               />
             </GameScreen>
           );
@@ -46,7 +55,7 @@ const App: React.FunctionComponent<AppProps> = ({errorsCount, questions}: AppPro
             <GameScreen type={question.type}>
               <ArtistQuestionScreenWrapped
                 question={question}
-                onAnswer={(): void => setStep((prevStep) => prevStep + 1)}
+                onAnswer={onUserAnswer}
               />
             </GameScreen>
           );
