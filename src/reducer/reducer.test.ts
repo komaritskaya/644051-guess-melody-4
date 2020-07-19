@@ -1,5 +1,5 @@
-import {reducer, ActionCreator, ActionType} from './reducer';
-import {GameType, GenreQuestion, ArtistQuestion} from '../types';
+import {reducer, ActionCreator} from './reducer';
+import {GameType, GenreQuestion, ArtistQuestion, Action} from '../types';
 
 const questions: (GenreQuestion | ArtistQuestion)[] = [
   {
@@ -37,90 +37,52 @@ const questions: (GenreQuestion | ArtistQuestion)[] = [
   },
 ];
 
+const initialState = {
+  step: -1,
+  mistakes: 0,
+  maxMistakes: 3,
+  questions,
+};
+
 it(`Reducer without additional parameters should return initial state`, () => {
-  expect(reducer(void 0, {})).toEqual({
-    step: -1,
-    mistakes: 0,
-    maxMistakes: 3,
-    questions,
-  });
+  expect(reducer(initialState, {type: `ERROR`, payload: null})).toEqual(initialState);
 });
 
 it(`Reducer should increment current step by a given value`, () => {
-  expect(reducer({
-    step: -1,
-    mistakes: 0,
-    maxMistakes: 3,
-    questions,
-  }, {
-    type: ActionType.INCREMENT_STEP,
+  expect(reducer(initialState, {
+    type: `INCREMENT_STEP`,
     payload: 1,
-  })).toEqual({
-    step: 0,
-    mistakes: 0,
-    maxMistakes: 3,
-    questions,
-  });
+  })).toEqual({...initialState, step: 0});
 
-  expect(reducer({
-    step: -1,
-    mistakes: 0,
-    maxMistakes: 3,
-    questions,
-  }, {
-    type: ActionType.INCREMENT_STEP,
+  expect(reducer(initialState, {
+    type: `INCREMENT_STEP`,
     payload: 0,
-  })).toEqual({
-    step: -1,
-    mistakes: 0,
-    maxMistakes: 3,
-    questions,
-  });
+  })).toEqual(initialState);
 });
 
 it(`Reducer should increment number of mistakes by a given value`, () => {
-  expect(reducer({
-    step: -1,
-    mistakes: 0,
-    maxMistakes: 3,
-    questions,
-  }, {
-    type: ActionType.INCREMENT_MISTAKES,
+  expect(reducer(initialState, {
+    type: `INCREMENT_MISTAKES`,
     payload: 1,
-  })).toEqual({
-    step: -1,
-    mistakes: 1,
-    maxMistakes: 3,
-    questions,
-  });
+  })).toEqual({...initialState, mistakes: 1});
 
-  expect(reducer({
-    step: -1,
-    mistakes: 0,
-    maxMistakes: 3,
-    questions,
-  }, {
-    type: ActionType.INCREMENT_MISTAKES,
+  expect(reducer(initialState, {
+    type: `INCREMENT_MISTAKES`,
     payload: 0,
-  })).toEqual({
-    step: -1,
-    mistakes: 0,
-    maxMistakes: 3,
-    questions,
-  });
+  })).toEqual(initialState);
 });
 
 describe(`Action creators work correctly`, () => {
   it(`Action creator for incrementing step returns correct action`, () => {
     expect(ActionCreator.incrementStep()).toEqual({
-      type: ActionType.INCREMENT_STEP,
+      type: `INCREMENT_STEP`,
       payload: 1,
-    });
+    } as Action);
   });
 
   it(`Action creator for incrementing mistake returns action with 0 payload if answer for artist is correct`, () => {
     expect(ActionCreator.incrementMistake({
-      type: `artist`,
+      type: GameType.ARTIST,
       song: {
         artist: `correct`,
         src: ``,
@@ -141,14 +103,14 @@ describe(`Action creators work correctly`, () => {
       artist: `correct`,
       picture: ``,
     })).toEqual({
-      type: ActionType.INCREMENT_MISTAKES,
+      type: `INCREMENT_MISTAKES`,
       payload: 0,
-    });
+    } as Action);
   });
 
   it(`Action creator for incrementing mistake returns action with 1 payload if answer for artist is incorrect`, () => {
     expect(ActionCreator.incrementMistake({
-      type: `artist`,
+      type: GameType.ARTIST,
       song: {
         artist: `correct`,
         src: ``,
@@ -169,14 +131,14 @@ describe(`Action creators work correctly`, () => {
       artist: `incorrect`,
       picture: ``,
     })).toEqual({
-      type: ActionType.INCREMENT_MISTAKES,
+      type: `INCREMENT_MISTAKES`,
       payload: 1,
-    });
+    } as Action);
   });
 
   it(`Action creator for incrementing mistake returns action with 0 payload if answer for genre is correct`, () => {
     expect(ActionCreator.incrementMistake({
-      type: `genre`,
+      type: GameType.GENRE,
       genre: `jazz`,
       answers: [
         {
@@ -194,14 +156,14 @@ describe(`Action creators work correctly`, () => {
         },
       ]
     }, [false, true, false, false])).toEqual({
-      type: ActionType.INCREMENT_MISTAKES,
+      type: `INCREMENT_MISTAKES`,
       payload: 0,
-    });
+    } as Action);
   });
 
   it(`Action creator for incrementing mistake returns action with 1 payload if answer for genre is incorrect`, () => {
     expect(ActionCreator.incrementMistake({
-      type: `genre`,
+      type: GameType.GENRE,
       genre: `jazz`,
       answers: [
         {
@@ -219,8 +181,8 @@ describe(`Action creators work correctly`, () => {
         },
       ]
     }, [true, true, true, true])).toEqual({
-      type: ActionType.INCREMENT_MISTAKES,
+      type: `INCREMENT_MISTAKES`,
       payload: 1,
-    });
+    } as Action);
   });
 });

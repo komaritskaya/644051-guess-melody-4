@@ -35,3 +35,8 @@ export interface RootState {
   step: number;
   questions: (GenreQuestion | ArtistQuestion)[];
 }
+
+export interface Action {
+  type: `INCREMENT_MISTAKES` | `INCREMENT_STEP` | `ERROR`;
+  payload: unknown;
+}

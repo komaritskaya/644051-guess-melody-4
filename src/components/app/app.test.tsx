@@ -24,24 +24,4 @@ describe(`Render App`, () => {
 
     expect(tree).toMatchSnapshot();
   });
-
-  it(`Render GenreQuestionScreen`, () => {
-    const store = mockStore({
-      mistakes: 3,
-      step: 1,
-      questions,
-    });
-    const tree = renderer
-      .create(
-          <Provider store={store}>
-            <App />
-          </Provider>, {
-            createNodeMock: () => {
-              return {};
-            }
-          })
-      .toJSON();
-
-    expect(tree).toMatchSnapshot();
-  });
 });
