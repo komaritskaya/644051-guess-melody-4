@@ -28,3 +28,15 @@ export interface ArtistQuestion {
   song: Song;
   answers: ArtistAnswer[];
 }
+
+export interface RootState {
+  mistakes: number;
+  maxMistakes: number;
+  step: number;
+  questions: (GenreQuestion | ArtistQuestion)[];
+}
+
+export interface Action {
+  type: `INCREMENT_MISTAKES` | `INCREMENT_STEP` | `ERROR`;
+  payload: unknown;
+}

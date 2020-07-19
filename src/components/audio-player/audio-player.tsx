@@ -6,12 +6,6 @@ interface AudioPlayerProps {
   onPlayButtonClick: () => void;
 }
 
-interface AudioPlayerState {
-  progress: number;
-  isLoading: boolean;
-  isPlaying: boolean;
-}
-
 const AudioPlayer: React.FC<AudioPlayerProps> = ({src, isPlaying, onPlayButtonClick}) => {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
