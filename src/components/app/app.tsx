@@ -5,6 +5,8 @@ import {ActionCreator} from '../../reducer/reducer';
 import WelcomeScreen from '../welcome-screen/welcome-screen';
 import ArtistQuestionScreen from '../artist-question-screen/artist-question-screen';
 import GenreQuestionScreen from '../genre-question-screen/genre-question-screen';
+import LoseScreen from '../lose-screen/lose-screen';
+import WinScreen from '../win-screen/win-screen';
 import GameScreen from '../game-screen/game-screen';
 import {GameType, GenreQuestion, ArtistQuestion, RootState} from '../../types';
 import withAudioPlayer from '../../hocs/with-audio-player/with-audio-player';
@@ -15,11 +17,16 @@ const ArtistQuestionScreenWrapped = withAudioPlayer(ArtistQuestionScreen);
 const App: React.FunctionComponent = () => {
   const step = useSelector((state: RootState) => state.step);
   const maxMistakes = useSelector((state: RootState) => state.maxMistakes);
+  const mistakes = useSelector((state: RootState) => state.mistakes);
   const questions = useSelector((state: RootState) => state.questions);
   const dispatch = useDispatch();
 
   const onWelcomeButtonClick = () => {
     dispatch(ActionCreator.incrementStep());
+  };
+
+  const resetGame = () => {
+    dispatch(ActionCreator.resetGame());
   };
 
   const onUserAnswer = (question, answer) => {
@@ -30,11 +37,29 @@ const App: React.FunctionComponent = () => {
   const _renderGameScreen = () => {
     const question = questions[step];
 
-    if (step === -1 || step >= questions.length) {
+    if (step === -1) {
       return (
         <WelcomeScreen
           errorsCount={maxMistakes}
           onWelcomeButtonClick={onWelcomeButtonClick}
+        />
+      );
+    }
+
+    if (mistakes >= maxMistakes) {
+      return (
+        <LoseScreen
+          onReplayButtonClick={resetGame}
+        />
+      );
+    }
+
+    if (step >= questions.length) {
+      return (
+        <WinScreen
+          questionsCount={questions.length}
+          mistakesCount={mistakes}
+          onReplayButtonClick={resetGame}
         />
       );
     }

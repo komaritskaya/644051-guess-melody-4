@@ -37,6 +37,6 @@ export interface RootState {
 }
 
 export interface Action {
-  type: `INCREMENT_MISTAKES` | `INCREMENT_STEP` | `ERROR`;
+  type: `INCREMENT_MISTAKES` | `INCREMENT_STEP` | `RESET` | `ERROR`;
   payload: unknown;
 }
