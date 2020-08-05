@@ -31,6 +31,7 @@ exports[`GenreQuestionScreen is rendered correctly 1`] = `
           name="answer"
           onChange={[Function]}
           type="checkbox"
+          value="answer-0"
         />
         <label
           className="game__check"
@@ -56,6 +57,7 @@ exports[`GenreQuestionScreen is rendered correctly 1`] = `
           name="answer"
           onChange={[Function]}
           type="checkbox"
+          value="answer-1"
         />
         <label
           className="game__check"
@@ -81,6 +83,7 @@ exports[`GenreQuestionScreen is rendered correctly 1`] = `
           name="answer"
           onChange={[Function]}
           type="checkbox"
+          value="answer-2"
         />
         <label
           className="game__check"
@@ -106,6 +109,7 @@ exports[`GenreQuestionScreen is rendered correctly 1`] = `
           name="answer"
           onChange={[Function]}
           type="checkbox"
+          value="answer-3"
         />
         <label
           className="game__check"

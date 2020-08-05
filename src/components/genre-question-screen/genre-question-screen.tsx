@@ -1,5 +1,6 @@
 import React, {useState, ReactNode} from 'react';
 import nanoid from 'nanoid';
+import GenreQuestionItem from '../genre-question-item/genre-question-item';
 import {GenreQuestion} from '../../types';
 
 interface GenreQuestionScreenProps {
@@ -15,6 +16,13 @@ const GenreQuestionScreen: React.FC<GenreQuestionScreenProps> = ({question, onAn
   } = question;
   const [userAnswers, setUserAnswers] = useState(new Array(question.answers.length).fill(false));
 
+  const handleChange = (i, value) => {
+    const newAnswers = userAnswers.slice(0);
+    newAnswers[i] = value;
+
+    setUserAnswers(newAnswers);
+  };
+
   return (
     <section className="game__screen">
       <h2 className="game__title">Выберите {genre} треки</h2>
@@ -28,23 +36,14 @@ const GenreQuestionScreen: React.FC<GenreQuestionScreenProps> = ({question, onAn
         {answers.map((answer, i) => {
           const answerId = nanoid();
           return (
-            <div key={answerId} className="track">
-              {renderPlayer(answer.src, i)}
-              <div className="game__answer">
-                <input
-                  className="game__input visually-hidden"
-                  type="checkbox"
-                  name="answer"
-                  id={`answer-${i}`}
-                  checked={userAnswers[i]}
-                  onChange={(evt): void => {
-                    const value = evt.target.checked;
-                    setUserAnswers((prevUserAnswers) => ([...prevUserAnswers.slice(0, i), value, ...prevUserAnswers.slice(i + 1)]));
-                  }}
-                />
-                <label className="game__check" htmlFor={`answer-${i}`}>Отметить</label>
-              </div>
-            </div>
+            <GenreQuestionItem
+              answer={answer}
+              id={i}
+              key={answerId}
+              onChange={handleChange}
+              renderPlayer={renderPlayer}
+              userAnswer={userAnswers[i]}
+            />
           );
         })}
         <button className="game__submit button" type="submit">Ответить</button>

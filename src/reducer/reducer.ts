@@ -42,31 +42,32 @@ const ActionCreator = {
       payload: answerIsCorrect ? 0 : 1,
     };
   },
+
+  resetGame: () => {
+    return {
+      type: `RESET`,
+      payload: null,
+    };
+  },
 };
 
 const reducer = (state = initialState, action: Action) => {
   switch (action.type) {
     case `INCREMENT_STEP`:
-      const nextStep = state.step + (action.payload as number);
-
-      if (nextStep >= state.questions.length) {
-        return extend({}, initialState);
-      }
-
       return extend(state, {
-        step: nextStep,
+        step: state.step + (action.payload as number),
       });
 
     case `INCREMENT_MISTAKES`:
-      const mistakes = state.mistakes + (action.payload as number);
-
-      if (mistakes >= state.maxMistakes) {
-        return extend({}, initialState);
-      }
-
       return extend(state, {
         mistakes: state.mistakes + (action.payload as number),
       });
+
+    case `RESET`:
+      return extend(initialState, {
+        step: 0,
+      });
+
   }
 
   return state;
