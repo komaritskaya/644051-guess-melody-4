@@ -10,6 +10,7 @@ import {createAPI} from './api';
 import App from './components/app/app';
 
 const onUnauthorized = () => {
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
   store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH));
 };
 

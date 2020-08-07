@@ -8,6 +8,7 @@ interface AudioPlayerProps {
 
 const AudioPlayer: React.FC<AudioPlayerProps> = ({src, isPlaying, onPlayButtonClick}) => {
   const [loading, setLoading] = useState(true);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [progress, setProgress] = useState(0);
 
   const audioRef = useRef<HTMLAudioElement | undefined>();
