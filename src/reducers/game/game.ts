@@ -1,12 +1,10 @@
-import {extend} from '../utils';
-import {GameType, RootState, Action, ArtistQuestion, GenreQuestion, ArtistAnswer} from '../types';
-import questions from '../mock/questions';
+import {extend} from '../../utils';
+import {GameType, GameState, GameAction, ArtistQuestion, GenreQuestion, ArtistAnswer} from '../../types';
 
-const initialState: RootState = {
+const initialState: GameState = {
   mistakes: 0,
   maxMistakes: 3,
   step: -1,
-  questions,
 };
 
 const isArtistAnswerCorrect = (question: ArtistQuestion, userAnswer: ArtistAnswer) => {
@@ -20,12 +18,12 @@ const isGenreAnswerCorrect = (question: GenreQuestion, userAnswer: boolean[]) =>
 };
 
 const ActionCreator = {
-  incrementStep: (): Action => ({
+  incrementStep: (): GameAction => ({
     type: `INCREMENT_STEP`,
     payload: 1,
   }),
 
-  incrementMistake: (question: (GenreQuestion | ArtistQuestion), userAnswer: (boolean[] | ArtistAnswer)): Action => {
+  incrementMistake: (question: (GenreQuestion | ArtistQuestion), userAnswer: (boolean[] | ArtistAnswer)): GameAction => {
     let answerIsCorrect = false;
 
     switch (question.type) {
@@ -51,7 +49,7 @@ const ActionCreator = {
   },
 };
 
-const reducer = (state = initialState, action: Action) => {
+const reducer = (state = initialState, action: GameAction) => {
   switch (action.type) {
     case `INCREMENT_STEP`:
       return extend(state, {

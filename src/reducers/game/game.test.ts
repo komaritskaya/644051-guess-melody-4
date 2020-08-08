@@ -1,47 +1,10 @@
-import {reducer, ActionCreator} from './reducer';
-import {GameType, GenreQuestion, ArtistQuestion, Action} from '../types';
-
-const questions: (GenreQuestion | ArtistQuestion)[] = [
-  {
-    type: GameType.GENRE,
-    genre: `rock`,
-    answers: [{
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
-      genre: `rock`,
-    }, {
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
-      genre: `blues`,
-    }, {
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
-      genre: `jazz`,
-    }, {
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
-      genre: `rock`,
-    }],
-  }, {
-    type: GameType.ARTIST,
-    song: {
-      artist: `Jim Beam`,
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
-    },
-    answers: [{
-      picture: `https://api.adorable.io/avatars/128/A`,
-      artist: `John Snow`,
-    }, {
-      picture: `https://api.adorable.io/avatars/128/AB`,
-      artist: `Jack Daniels`,
-    }, {
-      picture: `https://api.adorable.io/avatars/128/AC`,
-      artist: `Jim Beam`,
-    }],
-  },
-];
+import {reducer, ActionCreator} from './game';
+import {GameType, GameAction} from '../../types';
 
 const initialState = {
   step: -1,
   mistakes: 0,
   maxMistakes: 3,
-  questions,
 };
 
 it(`Reducer without additional parameters should return initial state`, () => {
@@ -77,7 +40,7 @@ describe(`Action creators work correctly`, () => {
     expect(ActionCreator.incrementStep()).toEqual({
       type: `INCREMENT_STEP`,
       payload: 1,
-    } as Action);
+    } as GameAction);
   });
 
   it(`Action creator for incrementing mistake returns action with 0 payload if answer for artist is correct`, () => {
@@ -105,7 +68,7 @@ describe(`Action creators work correctly`, () => {
     })).toEqual({
       type: `INCREMENT_MISTAKES`,
       payload: 0,
-    } as Action);
+    } as GameAction);
   });
 
   it(`Action creator for incrementing mistake returns action with 1 payload if answer for artist is incorrect`, () => {
@@ -133,7 +96,7 @@ describe(`Action creators work correctly`, () => {
     })).toEqual({
       type: `INCREMENT_MISTAKES`,
       payload: 1,
-    } as Action);
+    } as GameAction);
   });
 
   it(`Action creator for incrementing mistake returns action with 0 payload if answer for genre is correct`, () => {
@@ -158,7 +121,7 @@ describe(`Action creators work correctly`, () => {
     }, [false, true, false, false])).toEqual({
       type: `INCREMENT_MISTAKES`,
       payload: 0,
-    } as Action);
+    } as GameAction);
   });
 
   it(`Action creator for incrementing mistake returns action with 1 payload if answer for genre is incorrect`, () => {
@@ -183,6 +146,6 @@ describe(`Action creators work correctly`, () => {
     }, [true, true, true, true])).toEqual({
       type: `INCREMENT_MISTAKES`,
       payload: 1,
-    } as Action);
+    } as GameAction);
   });
 });

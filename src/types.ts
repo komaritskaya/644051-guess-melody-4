@@ -29,14 +29,31 @@ export interface ArtistQuestion {
   answers: ArtistAnswer[];
 }
 
-export interface RootState {
+export interface GameState {
   mistakes: number;
   maxMistakes: number;
   step: number;
+}
+
+export interface DataState {
   questions: (GenreQuestion | ArtistQuestion)[];
 }
 
-export interface Action {
+export interface UserState {
+  authorizationStatus: string;
+}
+
+export interface GameAction {
   type: `INCREMENT_MISTAKES` | `INCREMENT_STEP` | `RESET` | `ERROR`;
+  payload: unknown;
+}
+
+export interface DataAction {
+  type: `LOAD_QUESTIONS` | `ERROR`;
+  payload: unknown;
+}
+
+export interface UserAction {
+  type: `REQUIRED_AUTHORIZATION` | `ERROR`;
   payload: unknown;
 }
