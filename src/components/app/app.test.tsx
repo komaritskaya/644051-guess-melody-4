@@ -4,15 +4,24 @@ import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 import App from './app';
 import questions from '../../mock/questions';
+import NameSpace from '../../reducers/name-space';
+import { AuthorizationStatus } from '../../reducers/user/user';
 
 const mockStore = configureStore([]);
 
 describe(`Render App`, () => {
   it(`Render WelcomeScreen`, () => {
     const store = mockStore({
-      mistakes: 0,
-      step: 0,
-      questions,
+      [NameSpace.GAME]: {
+        mistakes: 0,
+        step: 0,
+      },
+      [NameSpace.DATA]: {
+        questions,
+      },
+      [NameSpace.USER]: {
+        authorizationStatus: AuthorizationStatus.AUTH,
+      },
     });
 
     const tree = renderer
