@@ -140,12 +140,6 @@ const App: React.FunctionComponent = () => {
             );
           }}
         />
-        <Route exact path="/dev-auth">
-          <AuthScreen
-            onReplayButtonClick={() => {}}
-            onSubmit={() => {}}
-          />
-        </Route>
       </Switch>
     </Router>
   );
