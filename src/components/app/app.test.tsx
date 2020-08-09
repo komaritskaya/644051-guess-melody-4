@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 import App from './app';
 import questions from '../../mock/questions';
 import NameSpace from '../../reducers/name-space';
-import { AuthorizationStatus } from '../../reducers/user/user';
+import {AuthorizationStatus} from '../../reducers/user/user';
 
 const mockStore = configureStore([]);
 
