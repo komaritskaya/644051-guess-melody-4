@@ -2,7 +2,7 @@ import React from 'react';
 import {Switch, Route, Router} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import {ActionCreator} from '../../reducers/game/game';
-// import {AuthorizationStatus} from '../../reducers/user/user';
+import {AuthorizationStatus} from '../../reducers/user/user';
 import WelcomeScreen from '../welcome-screen/welcome-screen';
 import ArtistQuestionScreen from '../artist-question-screen/artist-question-screen';
 import GenreQuestionScreen from '../genre-question-screen/genre-question-screen';
@@ -10,12 +10,13 @@ import LoseScreen from '../lose-screen/lose-screen';
 import WinScreen from '../win-screen/win-screen';
 import PrivateRoute from '../private-route/private-route';
 import GameScreen from '../game-screen/game-screen';
+import AuthScreen from '../auth-screen/auth-screen';
 import {
   GameType,
   GenreQuestion,
   ArtistQuestion,
   GameState,
-  // UserState,
+  UserState,
   DataState
 } from '../../types';
 import withAudioPlayer from '../../hocs/with-audio-player/with-audio-player';
@@ -25,16 +26,19 @@ import withAudioPlayer from '../../hocs/with-audio-player/with-audio-player';
 // import {Operation as UserOperation} from '../../reducers/user/user';
 import history from '../../history';
 import {AppRoute} from '../../const';
+import {Operation as UserOperation} from '../../reducers/user/user';
+import NameSpace from '../../reducers/name-space';
+
 
 const GenreQuestionScreenWrapped = withAudioPlayer(GenreQuestionScreen);
 const ArtistQuestionScreenWrapped = withAudioPlayer(ArtistQuestionScreen);
 
 const App: React.FunctionComponent = () => {
-  const step = useSelector((state: GameState) => state.step);
-  const maxMistakes = useSelector((state: GameState) => state.maxMistakes);
-  const mistakes = useSelector((state: GameState) => state.mistakes);
-  const questions = useSelector((state: DataState) => state.questions);
-  // const authorizationStatus = useSelector((state: UserState) => state.authorizationStatus);
+  const step = useSelector((state: GameState) => state[NameSpace.GAME].step);
+  const maxMistakes = useSelector((state: GameState) => state[NameSpace.GAME].maxMistakes);
+  const mistakes = useSelector((state: GameState) => state[NameSpace.GAME].mistakes);
+  const questions = useSelector((state: DataState) => state[NameSpace.DATA].questions);
+  const authorizationStatus = useSelector((state: UserState) => state[NameSpace.USER].authorizationStatus);
 
   const dispatch = useDispatch();
 
@@ -42,9 +46,9 @@ const App: React.FunctionComponent = () => {
     dispatch(ActionCreator.incrementStep());
   };
 
-  // const login = (authData) => {
-  //   dispatch(UserOperation.login(authData));
-  // };
+  const login = (authData) => {
+    dispatch(UserOperation.login(authData));
+  };
 
   const resetGame = () => {
     dispatch(ActionCreator.resetGame());
@@ -76,13 +80,24 @@ const App: React.FunctionComponent = () => {
     }
 
     if (step >= questions.length) {
-      return (
-        <WinScreen
-          questionsCount={questions.length}
-          mistakesCount={mistakes}
-          onReplayButtonClick={resetGame}
-        />
-      );
+      if (authorizationStatus === AuthorizationStatus.AUTH) {
+        return (
+          <WinScreen
+            questionsCount={questions.length}
+            mistakesCount={mistakes}
+            onReplayButtonClick={resetGame}
+          />
+        );
+      } else if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
+        return (
+          <AuthScreen
+            onReplayButtonClick={resetGame}
+            onSubmit={login}
+          />
+        );
+      }
+
+      return null;
     }
 
     if (question) {
@@ -156,6 +171,13 @@ const App: React.FunctionComponent = () => {
             onAnswer={() => {}}
           />
         </Route> */}
+        </Route>
+        <Route exact path="/dev-auth">
+          <AuthScreen
+            onReplayButtonClick={() => {}}
+            onSubmit={() => {}}
+          />
+        </Route>
       </Switch>
     </Router>
   );
