@@ -1,9 +1,11 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import {Provider} from 'react-redux';
+import {Router} from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import GameScreen from './game-screen';
 import {GameType} from '../../types';
+import history from '../../history';
 
 const mockStore = configureStore([]);
 
@@ -15,11 +17,15 @@ describe(`GameScreen component is rendered correctly`, () => {
 
     const tree = renderer.create(
         <Provider store={store}>
-          <GameScreen
-            type={GameType.ARTIST}
+          <Router
+            history={history}
           >
-            {children}
-          </GameScreen>
+            <GameScreen
+              type={GameType.ARTIST}
+            >
+              {children}
+            </GameScreen>
+          </Router>
         </Provider>
     ).toJSON();
 
@@ -31,11 +37,15 @@ describe(`GameScreen component is rendered correctly`, () => {
 
     const tree = renderer.create(
         <Provider store={store}>
-          <GameScreen
-            type={GameType.GENRE}
+          <Router
+            history={history}
           >
-            {children}
-          </GameScreen>
+            <GameScreen
+              type={GameType.GENRE}
+            >
+              {children}
+            </GameScreen>
+          </Router>
         </Provider>
     ).toJSON();
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route, BrowserRouter} from 'react-router-dom';
+import {Switch, Route, Router} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import {ActionCreator} from '../../reducers/game/game';
 import {AuthorizationStatus} from '../../reducers/user/user';
@@ -8,12 +8,11 @@ import ArtistQuestionScreen from '../artist-question-screen/artist-question-scre
 import GenreQuestionScreen from '../genre-question-screen/genre-question-screen';
 import LoseScreen from '../lose-screen/lose-screen';
 import WinScreen from '../win-screen/win-screen';
+import PrivateRoute from '../private-route/private-route';
 import GameScreen from '../game-screen/game-screen';
 import AuthScreen from '../auth-screen/auth-screen';
 import {
   GameType,
-  GenreQuestion,
-  ArtistQuestion,
   GameState,
   UserState,
   DataState
@@ -23,6 +22,8 @@ import withAudioPlayer from '../../hocs/with-audio-player/with-audio-player';
 // import {getQuestions} from '../../reducers/data/selectors';
 // import {getAuthorizationStatus} from '../../reducers/user/selectors';
 import {Operation as UserOperation} from '../../reducers/user/user';
+import history from '../../history';
+import {AppRoute} from '../../const';
 import NameSpace from '../../reducers/name-space';
 
 
@@ -68,29 +69,14 @@ const App: React.FunctionComponent = () => {
     }
 
     if (mistakes >= maxMistakes) {
-      return (
-        <LoseScreen
-          onReplayButtonClick={resetGame}
-        />
-      );
+      return history.push(AppRoute.LOSE);
     }
 
     if (step >= questions.length) {
       if (authorizationStatus === AuthorizationStatus.AUTH) {
-        return (
-          <WinScreen
-            questionsCount={questions.length}
-            mistakesCount={mistakes}
-            onReplayButtonClick={resetGame}
-          />
-        );
+        return history.push(AppRoute.RESULT);
       } else if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
-        return (
-          <AuthScreen
-            onReplayButtonClick={resetGame}
-            onSubmit={login}
-          />
-        );
+        return history.push(AppRoute.LOGIN);
       }
 
       return null;
@@ -123,32 +109,39 @@ const App: React.FunctionComponent = () => {
   };
 
   return (
-    <BrowserRouter>
+    <Router
+      history={history}
+    >
       <Switch>
-        <Route exact path="/">
+        <Route exact path={AppRoute.ROOT}>
           {_renderGameScreen()}
         </Route>
-        <Route exact path="/genre">
-          <GenreQuestionScreenWrapped
-            question={questions.find((question) => question.type === GameType.GENRE) as GenreQuestion}
-            onAnswer={() => {}}
-          />
-        </Route>
-
-        <Route exact path="/artist">
-          <ArtistQuestionScreenWrapped
-            question={questions.find((question) => question.type === GameType.ARTIST) as ArtistQuestion}
-            onAnswer={() => {}}
-          />
-        </Route>
-        <Route exact path="/dev-auth">
+        <Route exact path={AppRoute.LOGIN}>
           <AuthScreen
-            onReplayButtonClick={() => {}}
-            onSubmit={() => {}}
+            onReplayButtonClick={resetGame}
+            onSubmit={login}
           />
         </Route>
+        <Route exact path={AppRoute.LOSE}>
+          <LoseScreen
+            onReplayButtonClick={resetGame}
+          />
+        </Route>
+        <PrivateRoute
+          exact
+          path={AppRoute.RESULT}
+          render={() => {
+            return (
+              <WinScreen
+                questionsCount={questions.length}
+                mistakesCount={mistakes}
+                onReplayButtonClick={resetGame}
+              />
+            );
+          }}
+        />
       </Switch>
-    </BrowserRouter>
+    </Router>
   );
 };
 

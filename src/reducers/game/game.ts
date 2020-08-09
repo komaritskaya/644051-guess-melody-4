@@ -47,6 +47,13 @@ const ActionCreator = {
       payload: null,
     };
   },
+
+  goToWelcome: () => {
+    return {
+      type: `GO_TO_WELCOME`,
+      payload: null,
+    };
+  },
 };
 
 const reducer = (state = initialState, action: GameAction) => {
@@ -65,7 +72,10 @@ const reducer = (state = initialState, action: GameAction) => {
       return extend(initialState, {
         step: 0,
       });
-
+    case `GO_TO_WELCOME`:
+      return extend(initialState, {
+        step: -1,
+      });
   }
 
   return state;
