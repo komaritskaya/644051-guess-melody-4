@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {GameType, RootState} from '../../types';
+import {GameType, GameState} from '../../types';
 import Mistakes from '../mistakes/mistakes';
 
 interface GameScreenProps {
@@ -9,7 +9,7 @@ interface GameScreenProps {
 }
 
 const GameScreen = ({type, children}: GameScreenProps) => {
-  const mistakes = useSelector((state: RootState) => state.mistakes);
+  const mistakes = useSelector((state: GameState) => state.mistakes);
   return (
     <section className={`game game--${type}`}>
       <header className="game__header">
