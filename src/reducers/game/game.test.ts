@@ -35,6 +35,29 @@ it(`Reducer should increment number of mistakes by a given value`, () => {
   })).toEqual(initialState);
 });
 
+it(`Reducer should return step -1`, () => {
+  expect(reducer({
+    ...initialState,
+    step: 5,
+  }, {
+    type: `GO_TO_WELCOME`,
+    payload: null,
+  })).toEqual(initialState);
+
+  expect(reducer({
+    ...initialState,
+    step: 0,
+  }, {
+    type: `GO_TO_WELCOME`,
+    payload: null,
+  })).toEqual(initialState);
+
+  expect(reducer(initialState, {
+    type: `GO_TO_WELCOME`,
+    payload: null,
+  })).toEqual(initialState);
+});
+
 describe(`Action creators work correctly`, () => {
   it(`Action creator for incrementing step returns correct action`, () => {
     expect(ActionCreator.incrementStep()).toEqual({
@@ -147,5 +170,13 @@ describe(`Action creators work correctly`, () => {
       type: `INCREMENT_MISTAKES`,
       payload: 1,
     } as GameAction);
+  });
+
+  it(`Action creator for go to welcome returns action with null payload`, () => {
+    expect(ActionCreator.goToWelcome())
+      .toEqual({
+        type: `GO_TO_WELCOME`,
+        payload: null,
+      } as GameAction);
   });
 });

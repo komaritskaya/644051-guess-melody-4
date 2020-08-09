@@ -44,7 +44,7 @@ export interface UserState {
 }
 
 export interface GameAction {
-  type: `INCREMENT_MISTAKES` | `INCREMENT_STEP` | `RESET` | `ERROR`;
+  type: `INCREMENT_MISTAKES` | `INCREMENT_STEP` | `RESET` | `GO_TO_WELCOME` | `ERROR`;
   payload: unknown;
 }
 

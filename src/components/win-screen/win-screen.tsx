@@ -1,4 +1,6 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../const';
 
 interface WinScreenProps {
   questionsCount: number;
@@ -6,7 +8,7 @@ interface WinScreenProps {
   onReplayButtonClick: () => void;
 }
 
-const WinScreen = ({questionsCount, mistakesCount, onReplayButtonClick}) => {
+const WinScreen: React.FC<WinScreenProps> = ({questionsCount, mistakesCount, onReplayButtonClick}) => {
   const correctQuestionsCount = questionsCount - mistakesCount;
 
   return (
@@ -16,13 +18,13 @@ const WinScreen = ({questionsCount, mistakesCount, onReplayButtonClick}) => {
       </div>
       <h2 className="result__title">Вы настоящий меломан!</h2>
       <p className="result__total">Вы ответили правильно на {correctQuestionsCount} вопросов и совершили {mistakesCount} ошибки</p>
-      <button
+      <Link
+        to={AppRoute.ROOT}
         className="replay"
-        type="button"
         onClick={onReplayButtonClick}
       >
         Сыграть ещё раз
-      </button>
+      </Link>
     </section>
   );
 };
